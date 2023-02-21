@@ -126,3 +126,33 @@ struct ListLayoutGenerator {
       })
   }
 }
+
+final class ImageViewCell: UICollectionViewCell {
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    addSubview(imageView, insets: .zero)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  private lazy var imageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.contentMode = .scaleAspectFill
+    return imageView
+  }()
+
+}
+
+extension ImageViewCell: ListBindableCell {
+  func bind(viewModel: AnyHashable) {
+
+  }
+
+  struct ImageViewModel {
+    let url: URL?
+  }
+
+}

@@ -24,14 +24,12 @@ public final class HomePageViewModel {
     Task { @MainActor in
       let data = await repository.fetchHomePageList()
       switch data {
-      case .success(let success):
-        guard !success.items.isEmpty else {
+      case .success(let data):
+        guard !data.content.isEmpty else {
           viewState = .empty
           return
         }
-        viewModels = success.items.map { homePageContent in
-          homePageContent.toViewModel()
-        }
+        self.viewModels = data.content.compactMap { $0.toViewModel() }
         viewState = .loaded
       case .failure:
         viewState = .error

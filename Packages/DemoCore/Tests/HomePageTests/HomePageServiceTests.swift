@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import HomePage
+@testable import HomePageView
 
 final class HomePageServiceTests: XCTestCase {
 

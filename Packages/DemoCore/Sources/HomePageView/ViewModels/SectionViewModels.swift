@@ -6,21 +6,10 @@ protocol SectionViewModel: Hashable {
   var viewModels: [AnyHashable] { get }
 }
 
-extension HomePageContent {
-  func toViewModel() -> any SectionViewModel {
-    switch self {
-    case .highlightedProperty(let property), .property(let property):
-      return PropertySectionViewModel(property: property)
-    case .area(let area):
-      return AreaSectionViewModel(area: area)
-    }
-  }
-}
-
 struct PropertySectionViewModel: SectionViewModel {
 
   var sectionType: String {
-    "\(property.id)_\(property.type)"
+    "\(property.id)_\(property.contentType)"
   }
 
   var viewModels: [AnyHashable] {
@@ -45,7 +34,7 @@ struct PropertySectionViewModel: SectionViewModel {
 struct AreaSectionViewModel: SectionViewModel {
 
   var sectionType: String {
-    "\(area.id)_\(area.type)"
+    "\(area.id)_\(area.contentType)"
   }
 
   var viewModels: [AnyHashable] {

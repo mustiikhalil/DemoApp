@@ -5,7 +5,7 @@
 //  Created by Mustafa Khalil on 2023-02-21.
 //
 
-import HomePage
+import HomePageView
 import DemoNetworking
 import UIKit
 

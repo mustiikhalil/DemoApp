@@ -18,8 +18,8 @@ let package = Package(
       name: "DemoUI",
       targets: ["DemoUI"]),
     .library(
-      name: "HomePage",
-      targets: ["HomePage"]),
+      name: "HomePageView",
+      targets: ["HomePageView"]),
   ],
   dependencies: [
     .package(
@@ -29,7 +29,7 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "HomePage",
+      name: "HomePageView",
       dependencies: ["DemoCore", "DemoUI"]),
     .target(
       name: "DemoNetworking",
@@ -48,6 +48,6 @@ let package = Package(
       dependencies: ["DemoNetworking"]),
     .testTarget(
       name: "HomePageTests",
-      dependencies: ["HomePage"]),
+      dependencies: ["HomePageView"]),
   ]
 )
