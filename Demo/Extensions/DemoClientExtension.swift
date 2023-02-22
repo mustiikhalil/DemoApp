@@ -5,9 +5,46 @@
 //  Created by Mustafa Khalil on 2023-02-21.
 //
 
-import HomePageView
+import DemoCore
+import DemoUI
 import DemoNetworking
+import HomePageDetails
+import HomePageView
 import Foundation
+
+extension DemoClient: HomePageDetailsRepository {
+  public func fetchHomeDetails() async -> Result<HomePageDetails.DetailsPage, Error> {
+    let request = DetailsRequest()
+    let response = await performRequest(request: request)
+    switch response {
+    case .success(let success):
+      return .success(success)
+    case .failure(let failure):
+      return .failure(failure)
+    }
+  }
+}
+
+struct DetailsRequest: Request {
+  var request: RequestObject<DetailedPropertyDTO> {
+    RequestObject<DetailedPropertyDTO>(
+      backend: .pasteBin,
+      path: ["uj6vtukE"])
+  }
+}
+
+extension DemoNetworking.DetailedPropertyDTO: HomePageDetails.DetailsPage {
+  public var contentType: HomePageContentType {
+    type.contentType
+  }
+
+  public var imageSource: DemoUI.ImageSource {
+    .remote(url: image)
+  }
+
+}
+
+// MARK: - HomePageRepository
 
 extension DemoClient: HomePageRepository {
   public func fetchHomePageList() async -> Result<HomePageView.HomePage, Error> {
@@ -55,19 +92,28 @@ extension DemoNetworking.HomePageContent: HomePageView.HomePageContent {
 }
 
 extension AreaDTO: Area {
-  public var contentType: HomePageView.HomePageContentType {
+  public var imageSource: ImageSource {
+    .remote(url: image)
+  }
+
+  public var contentType: HomePageContentType {
     type.contentType
   }
 }
 
 extension PropertyDTO: Property {
-  public var contentType: HomePageView.HomePageContentType {
+
+  public var imageSource: ImageSource {
+    .remote(url: image)
+  }
+
+  public var contentType: HomePageContentType {
     type.contentType
   }
 }
 
 extension DemoNetworking.ContentType {
-  var contentType: HomePageView.HomePageContentType {
+  var contentType: HomePageContentType {
     switch self {
     case .property: return .property
     case .highlightedProperty: return .highlightedProperty

@@ -17,16 +17,32 @@ public enum ContentType: String, Decodable {
        area = "Area"
 }
 
+public struct DetailedPropertyDTO: Decodable {
+  public let id: String
+  public let description: String
+  public let type: ContentType
+  public let askingPrice: Double
+  public let monthlyFee: Double?
+  public let municipality: String
+  public let area: String
+  public let daysSincePublish: Int
+  public let livingArea: Double
+  public let numberOfRooms: Int
+  public let streetAddress: String
+  public let image: URL?
+  public let patio: String
+}
+
 // These would be presented as Graphql objects
 public struct PropertyDTO: Decodable {
   public let id: String
   public let type: ContentType
-  public let askingPrice: Int
-  public let monthlyFee: Int?
+  public let askingPrice: Double
+  public let monthlyFee: Double?
   public let municipality: String
   public let area: String
   public let daysSincePublish: Int
-  public let livingArea: Int
+  public let livingArea: Double
   public let numberOfRooms: Int
   public let streetAddress: String
   public let image: URL?
@@ -37,7 +53,7 @@ public struct AreaDTO: Decodable {
   public let type: ContentType
   public let area: String
   public let ratingFormatted: String
-  public let averagePrice: Int
+  public let averagePrice: Double
   public let image: URL?
 }
 

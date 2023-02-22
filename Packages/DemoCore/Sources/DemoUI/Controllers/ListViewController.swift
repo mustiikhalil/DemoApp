@@ -8,24 +8,42 @@
 import UIKit
 
 public protocol LayoutGenerator {
+  func setup(layout: UICollectionViewLayout)
   func registerCells(for collectionView: UICollectionView)
   func cellId(for: AnyHashable) -> String
+  func cellId(for indexPath: IndexPath) -> String
+}
+
+extension LayoutGenerator {
+  public func setup(layout: UICollectionViewLayout) {}
+  public func cellId(for indexPath: IndexPath) -> String {
+    fatalError("Should be implemented")
+  }
 }
 
 public final class ListViewController: UIViewController {
 
-  private let layoutGenerator: LayoutGenerator
+  var layoutGenerator: LayoutGenerator? {
+    didSet {
+      layoutGenerator?.setup(layout: collectionView.collectionViewLayout)
+      collectionView.collectionViewLayout.invalidateLayout()
+      collectionView.reloadData()
+    }
+  }
+
   private lazy var collectionView: UICollectionView = {
+    let layout = UICollectionViewFlowLayout()
+    layoutGenerator?.setup(layout: layout)
     let collectionView = UICollectionView(
       frame: .zero,
-      collectionViewLayout: UICollectionViewFlowLayout())
+      collectionViewLayout: layout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     collectionView.delegate = self
-    layoutGenerator.registerCells(for: collectionView)
+    layoutGenerator?.registerCells(for: collectionView)
     return collectionView
   }()
 
-  public init(layoutGenerator: LayoutGenerator) {
+  public init(layoutGenerator: LayoutGenerator? = nil) {
     self.layoutGenerator = layoutGenerator
     super.init(nibName: nil, bundle: nil)
   }
@@ -44,7 +62,8 @@ public final class ListViewController: UIViewController {
   private func setupView() {
     view.addSubview(collectionView, insets: .zero)
     dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.layoutGenerator.cellId(for: itemIdentifier), for: indexPath) as? ListBindableCell & UICollectionViewCell else {
+      guard let cellId = self.layoutGenerator?.cellId(for: itemIdentifier) else { return nil }
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? ListBindableCell & UICollectionViewCell else {
         fatalError("UICollectionViewCell to confirm to ListBindableCell")
       }
       cell.bind(viewModel: itemIdentifier)
@@ -55,6 +74,20 @@ public final class ListViewController: UIViewController {
 }
 
 extension ListViewController: UICollectionViewDelegateFlowLayout {
+
+  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard let item = dataSource?.itemIdentifier(for: indexPath) as? BindableViewModel else { return }
+    item.cellTapped?()
+  }
+
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 0
+  }
+
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    return 0
+  }
+
   public func collectionView(
     _ collectionView: UICollectionView,
     layout collectionViewLayout: UICollectionViewLayout,

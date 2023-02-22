@@ -6,6 +6,7 @@
 //
 
 import Combine
+import DemoCore
 import DemoUI
 import UIKit
 
@@ -13,11 +14,26 @@ public final class HomePageViewModel {
 
   @Published var viewState: ViewState = .loading
 
+  private weak var router: HomePageRouter?
   private let repository: HomePageRepository
+  private let metricsConverter: MetricsConverter
+  private let currencyConverter: CurrencyConverter
   private(set) var viewModels: [any SectionViewModel] = []
 
-  public init(repository: HomePageRepository) {
+  public init(
+    repository: HomePageRepository,
+    router: HomePageRouter,
+    metricsConverter: MetricsConverter,
+    currencyConverter: CurrencyConverter)
+  {
     self.repository = repository
+    self.router = router
+    self.metricsConverter = metricsConverter
+    self.currencyConverter = currencyConverter
+  }
+
+  func userTapped(property: Property) {
+    router?.didSelectItem(property: property)
   }
 
   func fetchHomePageData() {
@@ -29,7 +45,25 @@ public final class HomePageViewModel {
           viewState = .empty
           return
         }
-        self.viewModels = data.content.compactMap { $0.toViewModel() }
+        self.viewModels = data.content.compactMap {
+          if let area = $0.area {
+            return AreaSectionViewModel(
+              area: area,
+              currencyConverter: currencyConverter,
+              metricsConverter: metricsConverter)
+          }
+          if let property = $0.property {
+            let viewModel = PropertySectionViewModel(
+              property: property,
+              currencyConverter: currencyConverter,
+              metricsConverter: metricsConverter)
+            viewModel.cellTapped = { [weak self] in
+              self?.userTapped(property: property)
+            }
+            return viewModel
+          }
+          return nil
+        }
         viewState = .loaded
       case .failure:
         viewState = .error

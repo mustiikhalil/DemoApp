@@ -7,6 +7,28 @@
 
 import UIKit
 
+extension NSDirectionalEdgeInsets {
+
+  public static let defaultInsets = NSDirectionalEdgeInsets(
+    top: Theme.Size.Padding.xxlarge,
+    leading: Theme.Size.Padding.base,
+    bottom: Theme.Size.Padding.base,
+    trailing: Theme.Size.Padding.base)
+
+  public static let smallInsets = NSDirectionalEdgeInsets(
+    top: Theme.Size.Padding.base,
+    leading: Theme.Size.Padding.base,
+    bottom: Theme.Size.Padding.small,
+    trailing: Theme.Size.Padding.base)
+
+  public static let onlySides = NSDirectionalEdgeInsets(
+    top: 0,
+    leading: Theme.Size.Padding.base,
+    bottom: 0,
+    trailing: Theme.Size.Padding.base)
+
+}
+
 extension UIView {
 
   public func addSubview(_ view: UIView, insets: UIEdgeInsets, toSafeArea: Bool = false) {

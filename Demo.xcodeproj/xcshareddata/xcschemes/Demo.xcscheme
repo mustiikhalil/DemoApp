@@ -79,6 +79,16 @@
                ReferencedContainer = "container:Demo.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "HomePageDetailsTests"
+               BuildableName = "HomePageDetailsTests"
+               BlueprintName = "HomePageDetailsTests"
+               ReferencedContainer = "container:Packages/DemoCore">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

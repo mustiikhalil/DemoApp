@@ -7,28 +7,36 @@
 
 import UIKit
 
-public struct ImageViewModel: Hashable {
+public final class ImageViewModel: Hashable {
 
-  public func hash(into hasher: inout Hasher) {
-    hasher.combine(imageSource)
-  }
+  public var cellTapped: (() -> Void)?
+  let imageSource: ImageSource
+  let isHighlighted: Bool
+  let isExpanded: Bool
+  let isNew: Bool
 
   public static var id: String {
     String(describing: self)
   }
 
-  let imageSource: ImageSource
-  let isHighlighted: Bool
-  let isExpanded: Bool
-
   public init(
     imageSource: ImageSource,
     isHighlighted: Bool = false,
-    isExpanded: Bool = false)
+    isExpanded: Bool = false,
+    isNew: Bool = false)
   {
     self.imageSource = imageSource
     self.isHighlighted = isHighlighted
     self.isExpanded = isExpanded
+    self.isNew = isNew
+  }
+
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(imageSource)
+  }
+
+  public static func == (lhs: ImageViewModel, rhs: ImageViewModel) -> Bool {
+    lhs.imageSource == rhs.imageSource
   }
 
 }

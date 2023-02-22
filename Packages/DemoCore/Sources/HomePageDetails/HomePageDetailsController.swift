@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Mustafa Khalil on 2023-02-21.
 //
@@ -9,20 +9,16 @@ import Combine
 import DemoUI
 import UIKit
 
-public protocol HomePageRouter: AnyObject {
-  func didSelectItem(property: Property)
-}
-
-public final class HomePageController: UIViewController {
+public final class HomePageDetailsController: UIViewController {
 
   private var cancellables: Set<AnyCancellable> = Set()
-  private let viewModel: HomePageViewModel
+  private let viewModel: HomePageDetailsViewModel
 
   private lazy var listController: ListViewController = {
     ListViewController(layoutGenerator: ListLayoutGenerator())
   }()
 
-  public init(viewModel: HomePageViewModel) {
+  public init(viewModel: HomePageDetailsViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -35,7 +31,7 @@ public final class HomePageController: UIViewController {
     super.viewDidLoad()
     setupView()
     setupObservers()
-    viewModel.fetchHomePageData()
+    viewModel.fetchDetails()
   }
 
   private func setupView() {
@@ -70,4 +66,39 @@ public final class HomePageController: UIViewController {
     }
   }
 
+}
+
+struct ListLayoutGenerator: LayoutGenerator {
+
+  func registerCells(for collectionView: UICollectionView) {
+    collectionView.register(
+      ImageViewCell.self,
+      forCellWithReuseIdentifier: ImageViewModel.id)
+
+    collectionView.register(
+      TitleViewCell.self,
+      forCellWithReuseIdentifier: TitleViewModel.id)
+
+    collectionView.register(
+      HorizontalViewCell.self,
+      forCellWithReuseIdentifier: HorizontalViewModel.id)
+
+    collectionView.register(
+      SpacerViewCell.self,
+      forCellWithReuseIdentifier: SpacerViewModel.id)
+  }
+
+  func cellId(for item: AnyHashable) -> String {
+    switch item {
+    case is ImageViewModel:
+      return ImageViewModel.id
+    case is TitleViewModel:
+      return TitleViewModel.id
+    case is SpacerViewModel:
+      return SpacerViewModel.id
+    case is HorizontalViewModel:
+      return HorizontalViewModel.id
+    default: return "id"
+    }
+  }
 }

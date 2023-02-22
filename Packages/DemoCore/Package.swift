@@ -20,6 +20,9 @@ let package = Package(
     .library(
       name: "HomePageView",
       targets: ["HomePageView"]),
+    .library(
+      name: "HomePageDetails",
+      targets: ["HomePageDetails"]),
   ],
   dependencies: [
     .package(
@@ -31,6 +34,9 @@ let package = Package(
   targets: [
     .target(
       name: "HomePageView",
+      dependencies: ["DemoCore", "DemoUI"]),
+    .target(
+      name: "HomePageDetails",
       dependencies: ["DemoCore", "DemoUI"]),
     .target(
       name: "DemoNetworking",
@@ -57,6 +63,15 @@ let package = Package(
       dependencies: ["DemoNetworking"]),
     .testTarget(
       name: "HomePageTests",
-      dependencies: ["HomePageView"]),
+      dependencies: [
+        .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+        "HomePageView"
+      ]),
+    .testTarget(
+      name: "HomePageDetailsTests",
+      dependencies: [
+        .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+        "HomePageDetails"
+      ]),
   ]
 )

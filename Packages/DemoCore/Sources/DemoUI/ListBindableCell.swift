@@ -1,6 +1,7 @@
 import Foundation
 
 public protocol BindableViewModel {
+  var cellTapped: (() -> Void)? { get set }
   func size(for contentSize: CGSize) -> CGSize
 }
 

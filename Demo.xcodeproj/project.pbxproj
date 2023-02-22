@@ -18,6 +18,7 @@
 		3B4C83AD29A54862005CF2B8 /* DemoUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3B4C83AC29A54862005CF2B8 /* DemoUI */; };
 		3B4C83B529A55481005CF2B8 /* DemoClientExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C83B429A55481005CF2B8 /* DemoClientExtension.swift */; };
 		3B8A689629A586E40068447C /* HomePageView in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8A689529A586E40068447C /* HomePageView */; };
+		3B8A689829A6A66E0068447C /* HomePageDetails in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8A689729A6A66E0068447C /* HomePageDetails */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 				3B8A689629A586E40068447C /* HomePageView in Frameworks */,
 				3B4C83AD29A54862005CF2B8 /* DemoUI in Frameworks */,
 				3B4C83AB29A54862005CF2B8 /* DemoNetworking in Frameworks */,
+				3B8A689829A6A66E0068447C /* HomePageDetails in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +162,7 @@
 				3B4C83AA29A54862005CF2B8 /* DemoNetworking */,
 				3B4C83AC29A54862005CF2B8 /* DemoUI */,
 				3B8A689529A586E40068447C /* HomePageView */,
+				3B8A689729A6A66E0068447C /* HomePageDetails */,
 			);
 			productName = Demo;
 			productReference = 3B4C836A29A5430A005CF2B8 /* Demo.app */;
@@ -540,6 +543,10 @@
 		3B8A689529A586E40068447C /* HomePageView */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HomePageView;
+		};
+		3B8A689729A6A66E0068447C /* HomePageDetails */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HomePageDetails;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
