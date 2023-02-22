@@ -24,8 +24,9 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
-      from: "1.10.0"
+      exact: "1.10.0"
     ),
+    .package(url: "https://github.com/onevcat/Kingfisher", exact: "7.6.1")
   ],
   targets: [
     .target(
@@ -36,13 +37,21 @@ let package = Package(
       dependencies: []),
     .target(
       name: "DemoUI",
-      dependencies: []),
+      dependencies: [
+        .product(name: "Kingfisher", package: "Kingfisher")
+      ]),
     .target(
       name: "DemoCore",
       dependencies: []),
     .testTarget(
       name: "DemoCoreTests",
       dependencies: ["DemoCore"]),
+    .testTarget(
+      name: "DemoUIPackageTests",
+      dependencies: [
+        .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+        "DemoUI"
+      ]),
     .testTarget(
       name: "DemoNetworkingTests",
       dependencies: ["DemoNetworking"]),

@@ -25,7 +25,7 @@ extension UIView {
           constant: insets.left),
         view.trailingAnchor.constraint(
           equalTo: layoutMarginsGuide.trailingAnchor,
-          constant: insets.right),
+          constant: -insets.right),
       ])
     } else {
       NSLayoutConstraint.activate([
@@ -40,7 +40,7 @@ extension UIView {
           constant: insets.left),
         view.trailingAnchor.constraint(
           equalTo: trailingAnchor,
-          constant: insets.right),
+          constant: -insets.right),
       ])
     }
   }

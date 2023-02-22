@@ -1,11 +1,6 @@
 import DemoUI
 import Foundation
 
-protocol SectionViewModel: Hashable {
-  var sectionType: String { get }
-  var viewModels: [AnyHashable] { get }
-}
-
 struct PropertySectionViewModel: SectionViewModel {
 
   var sectionType: String {
@@ -14,9 +9,9 @@ struct PropertySectionViewModel: SectionViewModel {
 
   var viewModels: [AnyHashable] {
     [
-      property.image,
-      property.streetAddress,
-      property.municipality
+      ImageViewModel(
+        imageSource: .remote(url: property.image),
+        isHighlighted: property.contentType == .highlightedProperty),
     ]
   }
 
@@ -39,7 +34,7 @@ struct AreaSectionViewModel: SectionViewModel {
 
   var viewModels: [AnyHashable] {
     [
-      area.ratingFormatted
+      ImageViewModel(imageSource: .remote(url: area.image)),
     ]
   }
 
