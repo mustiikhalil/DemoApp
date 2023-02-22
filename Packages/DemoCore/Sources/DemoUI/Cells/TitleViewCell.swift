@@ -1,11 +1,16 @@
 import UIKit
 
-public final class TitleViewModel: Hashable {
+public enum Axis {
+  case vertical, horizontal
+}
+
+public final class TextViewModel: Hashable {
 
   public var cellTapped: (() -> Void)?
   let attributedText: NSAttributedString
   let insets: NSDirectionalEdgeInsets
   let numberOfLines: Int
+  let axis: Axis
 
   public static var id: String {
     String(describing: self)
@@ -14,39 +19,41 @@ public final class TitleViewModel: Hashable {
   public init(
     attributedText: NSAttributedString,
     numberOfLines: Int = 1,
+    axis: Axis = .vertical,
     insets: NSDirectionalEdgeInsets = .defaultInsets)
   {
     self.attributedText = attributedText
     self.insets = insets
+    self.axis = axis
     self.numberOfLines = numberOfLines
   }
 
-  public init(
+  public convenience init(
     text: String,
     font: UIFont = .headerBold,
     numberOfLines: Int = 1,
+    axis: Axis = .vertical,
     textColor: UIColor = .black,
     insets: NSDirectionalEdgeInsets = .defaultInsets)
   {
-    attributedText = {
+    let attributedText = {
       NSAttributedString(
         string: text,
         attributes: [.font: font, .foregroundColor: textColor])
     }()
-    self.numberOfLines = numberOfLines
-    self.insets = insets
+    self.init(attributedText: attributedText, numberOfLines: numberOfLines, axis: axis, insets: insets)
   }
 
   public func hash(into hasher: inout Hasher) {
     hasher.combine(attributedText.string)
   }
 
-  public static func == (lhs: TitleViewModel, rhs: TitleViewModel) -> Bool {
+  public static func == (lhs: TextViewModel, rhs: TextViewModel) -> Bool {
     lhs.attributedText.string == rhs.attributedText.string
   }
 }
 
-extension TitleViewModel: BindableViewModel {
+extension TextViewModel: BindableViewModel {
   public func size(for contentSize: CGSize) -> CGSize {
     let height = contentSize.height - insets.top - insets.bottom
     let width = contentSize.width - insets.leading - insets.trailing
@@ -56,11 +63,16 @@ extension TitleViewModel: BindableViewModel {
       options: [.usesLineFragmentOrigin],
       context: nil)
     let calculatedHeight = textRect.height + insets.top + insets.bottom
-    return CGSize(width: contentSize.width, height: calculatedHeight)
+    let calculatedWidth = textRect.width + insets.leading + insets.trailing
+    if axis == .vertical {
+      return CGSize(width: contentSize.width, height: calculatedHeight)
+    } else {
+      return CGSize(width: calculatedWidth + Theme.Size.Padding.small, height: calculatedHeight)
+    }
   }
 }
 
-public final class TitleViewCell: UICollectionViewCell {
+public final class TextViewCell: UICollectionViewCell {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -90,9 +102,9 @@ public final class TitleViewCell: UICollectionViewCell {
 
 }
 
-extension TitleViewCell: ListBindableCell {
+extension TextViewCell: ListBindableCell {
   public func bind(viewModel: AnyHashable) {
-    guard let viewModel = viewModel as? TitleViewModel else { return }
+    guard let viewModel = viewModel as? TextViewModel else { return }
     titleLabel.numberOfLines = viewModel.numberOfLines
     titleLabel.attributedText = viewModel.attributedText
     contentView.directionalLayoutMargins = viewModel.insets

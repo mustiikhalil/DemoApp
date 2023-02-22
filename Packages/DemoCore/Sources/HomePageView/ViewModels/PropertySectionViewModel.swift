@@ -19,12 +19,12 @@ final class PropertySectionViewModel: SectionViewModel {
       imageSource: property.imageSource,
       isHighlighted: property.contentType == .highlightedProperty)
     imageViewModel.cellTapped = cellTapped
-    let streetAddressViewModel = TitleViewModel(
+    let streetAddressViewModel = TextViewModel(
       text: property.streetAddress,
       insets: .smallInsets)
     streetAddressViewModel.cellTapped = cellTapped
 
-    let locationViewModel = TitleViewModel(
+    let locationViewModel = TextViewModel(
       text: property.location,
       font: .labelFont,
       textColor: .gray,
@@ -39,12 +39,25 @@ final class PropertySectionViewModel: SectionViewModel {
 
     var horizontalViewModels: [AnyHashable] = []
     if let currency = currencyConverter.convert(currency: property.askingPrice) {
-      horizontalViewModels.append(TextViewModel(text: currency))
+      horizontalViewModels.append(TextViewModel(
+        text: currency,
+        font: .boldSystemFont(ofSize: 12),
+        axis: .horizontal,
+        insets: .zero))
     }
     if let livingArea = metricsConverter.convert(measurement: .init(value: property.livingArea, unit: UnitArea.squareMeters)) {
-      horizontalViewModels.append(TextViewModel(text: livingArea))
+      horizontalViewModels.append(TextViewModel(
+        text: livingArea,
+        font: .boldSystemFont(ofSize: 12),
+        axis: .horizontal,
+        insets: .zero))
     }
-    horizontalViewModels.append(TextViewModel(text: "\(property.numberOfRooms) Rooms"))
+    horizontalViewModels.append(
+      TextViewModel(
+        text: "\(property.numberOfRooms) Rooms",
+        font: .boldSystemFont(ofSize: 12),
+        axis: .horizontal,
+        insets: .zero))
     let horizontalViewModel = HorizontalViewModel(
       viewModels: horizontalViewModels,
       layoutGenerator: HorizontalLayout(),

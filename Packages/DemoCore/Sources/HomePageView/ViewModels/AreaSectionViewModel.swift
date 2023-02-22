@@ -14,23 +14,23 @@ final class AreaSectionViewModel: SectionViewModel {
 
   var viewModels: [AnyHashable] {
     var viewModels: [AnyHashable] = [
-      TitleViewModel(
+      TextViewModel(
         text: area.area,
         font: .headerBoldLarge),
       ImageViewModel(
         imageSource: area.imageSource),
-      TitleViewModel(
+      TextViewModel(
         text: area.area,
         font: .titleBold,
         insets: .smallInsets),
-      TitleViewModel(
+      TextViewModel(
         text: "\(Constants.rating): \(area.ratingFormatted)",
         font: .labelFont,
         insets: .onlySides),
     ]
     if let price = currencyConverter.convert(currency: area.averagePrice) {
       viewModels.append(
-        TitleViewModel(
+        TextViewModel(
           text: "\(Constants.averagePrice): \(price)",
           font: .labelFont,
           insets: .onlySides))

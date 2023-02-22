@@ -9,7 +9,7 @@ import XCTest
 import SnapshotTesting
 @testable import DemoUI
 
-final class TitleViewCellTests: XCTestCase {
+final class TextViewCellTests: XCTestCase {
 
   private var containerSize: CGSize!
 
@@ -18,9 +18,9 @@ final class TitleViewCellTests: XCTestCase {
   }
 
   func testDefaultSpacing() {
-    let viewModel = TitleViewModel(
+    let viewModel = TextViewModel(
       text: "Header")
-    let cell = TitleViewCell(
+    let cell = TextViewCell(
       frame: CGRect(
         origin: .zero,
         size: viewModel.size(for: containerSize)))
@@ -29,10 +29,10 @@ final class TitleViewCellTests: XCTestCase {
   }
 
   func testSmallSpacing() {
-    let viewModel = TitleViewModel(
+    let viewModel = TextViewModel(
       text: "Header",
       insets: .smallInsets)
-    let cell = TitleViewCell(
+    let cell = TextViewCell(
       frame: CGRect(
         origin: .zero,
         size: viewModel.size(for: containerSize)))
@@ -41,10 +41,10 @@ final class TitleViewCellTests: XCTestCase {
   }
 
   func testOnlySidesSpacing() {
-    let viewModel = TitleViewModel(
+    let viewModel = TextViewModel(
       text: "Header",
       insets: .onlySides)
-    let cell = TitleViewCell(
+    let cell = TextViewCell(
       frame: CGRect(
         origin: .zero,
         size: viewModel.size(for: containerSize)))
@@ -53,9 +53,9 @@ final class TitleViewCellTests: XCTestCase {
   }
 
   func testDefaultFont() {
-    let viewModel = TitleViewModel(
+    let viewModel = TextViewModel(
       text: "Header")
-    let cell = TitleViewCell(
+    let cell = TextViewCell(
       frame: CGRect(
         origin: .zero,
         size: viewModel.size(for: containerSize)))
@@ -64,10 +64,10 @@ final class TitleViewCellTests: XCTestCase {
   }
 
   func testChangedFont() {
-    let viewModel = TitleViewModel(
+    let viewModel = TextViewModel(
       text: "Header",
       font: .titleBold)
-    let cell = TitleViewCell(
+    let cell = TextViewCell(
       frame: CGRect(
         origin: .zero,
         size: viewModel.size(for: containerSize)))
@@ -76,10 +76,10 @@ final class TitleViewCellTests: XCTestCase {
   }
 
   func testColor() {
-    let viewModel = TitleViewModel(
+    let viewModel = TextViewModel(
       text: "Header",
       textColor: .red)
-    let cell = TitleViewCell(
+    let cell = TextViewCell(
       frame: CGRect(
         origin: .zero,
         size: viewModel.size(for: containerSize)))

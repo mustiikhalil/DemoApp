@@ -76,8 +76,8 @@ struct ListLayoutGenerator: LayoutGenerator {
       forCellWithReuseIdentifier: ImageViewModel.id)
 
     collectionView.register(
-      TitleViewCell.self,
-      forCellWithReuseIdentifier: TitleViewModel.id)
+      TextViewCell.self,
+      forCellWithReuseIdentifier: TextViewModel.id)
 
     collectionView.register(
       HorizontalViewCell.self,
@@ -92,8 +92,8 @@ struct ListLayoutGenerator: LayoutGenerator {
     switch item {
     case is ImageViewModel:
       return ImageViewModel.id
-    case is TitleViewModel:
-      return TitleViewModel.id
+    case is TextViewModel:
+      return TextViewModel.id
     case is SpacerViewModel:
       return SpacerViewModel.id
     case is HorizontalViewModel:

@@ -20,11 +20,11 @@ final class DetailsSectionViewModel: SectionViewModel {
       isHighlighted: details.contentType == .highlightedProperty)
     imageViewModel.cellTapped = cellTapped
 
-    let streetAddressViewModel = TitleViewModel(
+    let streetAddressViewModel = TextViewModel(
       text: details.streetAddress,
       insets: .smallInsets)
 
-    let locationViewModel = TitleViewModel(
+    let locationViewModel = TextViewModel(
       text: details.location,
       font: .labelFont,
       textColor: .gray,
@@ -37,13 +37,13 @@ final class DetailsSectionViewModel: SectionViewModel {
 
     if let pricing = currencyConverter.convert(currency: details.askingPrice) {
       viewModels.append(
-        TitleViewModel(
+        TextViewModel(
           text: pricing,
           insets: .smallInsets))
     }
 
     viewModels.append(
-      TitleViewModel(
+      TextViewModel(
         attributedText: details.attributedDescription,
         numberOfLines: 0,
         insets: .init(
@@ -61,27 +61,27 @@ final class DetailsSectionViewModel: SectionViewModel {
     return viewModels
   }
 
-  var publishedSince: TitleViewModel {
-    generateTitleViewModel(
+  var publishedSince: TextViewModel {
+    generateTextViewModel(
       from: Constants.localizedPublishedSince,
       subString: "\(details.daysSincePublish)")
   }
 
-  var hasPatio: TitleViewModel {
-    generateTitleViewModel(
+  var hasPatio: TextViewModel {
+    generateTextViewModel(
       from: Constants.localizePatio,
       subString: "\(details.patio)")
   }
 
-  var numberOfRooms: TitleViewModel {
-    generateTitleViewModel(
+  var numberOfRooms: TextViewModel {
+    generateTextViewModel(
       from: Constants.localizeNumberOfRooms,
       subString: "\(details.numberOfRooms)")
   }
 
-  var spaceViewModel: TitleViewModel? {
+  var spaceViewModel: TextViewModel? {
     guard let space = metricsConverter.convert(measurement: .init(value: details.livingArea, unit: UnitArea.squareMeters)) else { return nil }
-    return generateTitleViewModel(
+    return generateTextViewModel(
       from: Constants.localizedLivingArea,
       subString: space)
   }
@@ -121,7 +121,7 @@ final class DetailsSectionViewModel: SectionViewModel {
     hasher.combine(details.id)
   }
 
-  private func generateTitleViewModel(from text: String, subString: String) -> TitleViewModel {
+  private func generateTextViewModel(from text: String, subString: String) -> TextViewModel {
     let mutableString = NSMutableAttributedString(
       string: "\(text): ",
       attributes: Constants.boldAttributes)
@@ -129,7 +129,7 @@ final class DetailsSectionViewModel: SectionViewModel {
       NSAttributedString(
         string: subString,
         attributes: Constants.normalAttributes))
-    return TitleViewModel(
+    return TextViewModel(
       attributedText: mutableString,
       insets: .smallInsets)
   }
